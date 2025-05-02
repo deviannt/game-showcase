@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import com.example.hw7.data.repository.GameLocalRepository
 import com.example.hw7.databinding.ActivityMainBinding
 import com.example.hw7.presentation.mvvm.GameFragment
 import com.example.hw7.presentation.mvi.GameMviFragment
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        lifecycleScope.launch {
+            val repo = GameLocalRepository(applicationContext)
+            repo.insertSampleDataIfEmpty()
+        }
 
         showArchitectureChooser()
     }
